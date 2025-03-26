@@ -70,22 +70,37 @@ export async function POST(request: Request) {
     );
   }
 
-  const rawBody = await streamToString(request.body);
+  // const rawBody = await streamToString(request.body);
+
+  const rawBody = await request.arrayBuffer();
+  const rawBodyBuffer = Buffer.from(rawBody);
 
   let event;
-
   try {
-    event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret!);
+    event = stripe.webhooks.constructEvent(rawBodyBuffer, sig, endpointSecret!);
   } catch (err) {
     const error = err as Error;
     console.log("Error verifying webhook signature: " + error.message);
     return NextResponse.json(
-      {
-        message: `Webhook Error: ${error?.message}`,
-      },
+      { message: `Webhook Error: ${error?.message}` },
       { status: 400 }
     );
   }
+
+  // let event;
+
+  // try {
+  //   event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret!);
+  // } catch (err) {
+  //   const error = err as Error;
+  //   console.log("Error verifying webhook signature: " + error.message);
+  //   return NextResponse.json(
+  //     {
+  //       message: `Webhook Error: ${error?.message}`,
+  //     },
+  //     { status: 400 }
+  //   );
+  // }
 
   const supabase = createClient<Database>(
     supabaseUrl as string,
@@ -173,6 +188,7 @@ export async function POST(request: Request) {
 
         if (error) {
           console.log(error);
+          console.log("❌ Error creating credits:", error);
           return NextResponse.json(
             {
               message: `Error creating credits: ${error}\n ${data}`,
@@ -181,9 +197,12 @@ export async function POST(request: Request) {
               status: 400,
             }
           );
+        } else{
+          console.log("✅ Credits created for new user:", data);
         }
       }
 
+      console.log("✅ Webhook handled successfully");
       return NextResponse.json(
         {
           message: "success",
