@@ -69,10 +69,15 @@ export default function ClientSideModel({
                 <div className="flex flex-row flex-wrap gap-4">
                   {serverImages?.map((image) => (
                     <div key={image.id}>
+                      <a href={image.uri} download={image.uri}>
+                      
                       <img
                         src={image.uri}
                         className="rounded-md w-60 object-cover"
                       />
+                      
+                      </a>
+                      
                     </div>
                   ))}
                 </div>

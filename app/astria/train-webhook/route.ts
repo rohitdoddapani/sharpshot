@@ -30,6 +30,9 @@ if (!appWebhookSecret) {
 }
 
 export async function POST(request: Request) {
+
+  console.log("Inn train-webhook route start....");
+
   type TuneData = {
     id: number;
     title: string;
@@ -124,6 +127,9 @@ export async function POST(request: Request) {
   }
 
   try {
+
+    // console.log("Inn train-webhook route resend api try....");
+    
     if (resendApiKey) {
       const resend = new Resend(resendApiKey);
       await resend.emails.send({

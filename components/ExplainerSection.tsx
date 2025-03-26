@@ -21,7 +21,7 @@ export default function ExplainerSection() {
         </p>
         <img
           src={example.src}
-          alt="AI Headshot example"
+          alt="AI sharpshot example"
           className="rounded-lg object-cover w-full md:w-3/4 lg:w-1/2 mx-auto"
         />
       </div>

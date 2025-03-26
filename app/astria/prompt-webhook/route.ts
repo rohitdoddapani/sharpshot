@@ -29,6 +29,9 @@ if (!appWebhookSecret) {
 }
 
 export async function POST(request: Request) {
+
+  console.log("Inn prompt-webhook route start....");
+
   type PromptData = {
     id: number;
     text: string;
