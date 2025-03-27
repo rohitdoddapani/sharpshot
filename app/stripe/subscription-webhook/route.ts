@@ -6,6 +6,7 @@ import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -219,9 +220,3 @@ export async function POST(request: Request) {
       );
   }
 }
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
